@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Variable "H" - Bibliotheka</title>
+    <meta name="description" content="Explore the deep archive of Human Factors across various industries.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts: 'Playfair Display' for editorial headings, 'Inter' for UI & body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <div class="logo-container">
+                <button class="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+                <a href="index.html">
+                    <img src="assets/logo.svg" alt="Magazine Logo" class="brand-logo">
+                </a>
+            </div>
+            <a href="contribute.html" class="cta-button"><span class="desktop-only">Want to </span>contribute?</a>
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="library.html" class="nav-link active">Library</a></li>
+                <li class="nav-item mobile-only"><a href="contribute.html" class="nav-link cta-mobile">Contribute</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="library-page">
+
+        <section class="library-domain">
+            <div class="domain-intro">
+                <h2>The Medtech Archive</h2>
+                <p>Navigating the complexities of patient safety, legacy device post-mortems, and the evolution of
+                    regulatory design standards.</p>
+            </div>
+
+            <div class="article-grid">
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">The Infusion Pump Crisis: A Study in Fatal Affordance</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 6 min</span>
+                    </div>
+                </a>
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">FDA Draft Guidance 2024: Moving Beyond the Formative</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 4 min</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="library-domain">
+            <div class="domain-intro">
+                <h2>The AI Frontier</h2>
+                <p>Decoding the human-centric challenges of healthcare automation, algorithmic transparency, and the
+                    future of hybrid intelligence.</p>
+            </div>
+
+            <div class="article-grid">
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">The "Black Box" Problem in Robotic Surgery</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 8 min</span>
+                    </div>
+                </a>
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">Algorithmic Bias: When ML Learns the Wrong Heuristics</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 5 min</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="library-domain">
+            <div class="domain-intro">
+                <h2>The Engineer’s Bridge</h2>
+                <p>Where physical hardware meets cognitive ergonomics; exploring the mechanical interfaces that define
+                    human performance.</p>
+            </div>
+
+            <div class="article-grid">
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">Tactile Feedback in Haptic Actuators: A Review</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 12 min</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="library-domain">
+            <div class="domain-intro">
+                <h2>The Aviation Vault</h2>
+                <p>Drawing from the gold standards of aerospace: Cockpit dynamics, Crew Resource Management, and
+                    high-stakes error mitigation.</p>
+            </div>
+
+            <div class="article-grid">
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">The Boeing MCAS Disaster: A Human Factors Post-Mortem</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 15 min</span>
+                    </div>
+                </a>
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">Crew Resource Management: Adapting Flight Protocols for the ER</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 7 min</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="library-domain">
+            <div class="domain-intro">
+                <h2>The Horizon</h2>
+                <p>Exploring the universal 'H' across emerging sectors, from nuclear resilience to the ethics of
+                    human-robot interaction.</p>
+            </div>
+
+            <div class="article-grid">
+                <a href="article.html" class="article-card">
+                    <h3 class="card-title">Human-Robot Teaming in Extreme Environments</h3>
+                    <hr class="card-separator">
+                    <div class="card-meta">
+                        <span>* Read Time: 9 min</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav');
+
+            if (mobileBtn && mainNav) {
+                mobileBtn.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
