@@ -40,6 +40,8 @@ export default function ArticlePage() {
     const { user, isAdmin, signIn } = useAuth();
 
     // ---- Voting State ----
+    const [upvotes, setUpvotes] = useState(0);
+    const [downvotes, setDownvotes] = useState(0);
     const [userVote, setUserVote] = useState(null);
     const [voteAnim, setVoteAnim] = useState(null); // 'up' | 'down' | null
 
@@ -47,6 +49,7 @@ export default function ArticlePage() {
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState('');
     const [posting, setPosting] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState(null); // comment ID pending delete
 
     // Real-time vote listener
     useEffect(() => {
@@ -54,8 +57,14 @@ export default function ArticlePage() {
         const unsub = onSnapshot(voteRef, (snap) => {
             if (snap.exists()) {
                 const data = snap.data();
+                // Count votes from the voters map
+                const voters = data.voters || {};
+                let up = 0, down = 0;
+                Object.values(voters).forEach(v => { if (v === 'up') up++; else if (v === 'down') down++; });
+                setUpvotes(up);
+                setDownvotes(down);
                 if (user) {
-                    setUserVote(data.voters?.[user.uid] || null);
+                    setUserVote(voters[user.uid] || null);
                 }
             }
         });
@@ -106,15 +115,14 @@ export default function ArticlePage() {
     }
 
     // Delete comment (admin only)
-    async function deleteComment(commentId) {
-        if (!isAdmin) return;
-        if (!confirm('Delete this comment?')) return;
+    async function confirmDelete() {
+        if (!isAdmin || !deleteTarget) return;
         try {
-            await deleteDoc(doc(db, 'articles', slug, 'comments', commentId));
+            await deleteDoc(doc(db, 'articles', slug, 'comments', deleteTarget));
         } catch (err) {
             console.error('Failed to delete comment:', err);
-            alert('Could not delete comment.');
         }
+        setDeleteTarget(null);
     }
 
     // Post comment
@@ -168,25 +176,33 @@ export default function ArticlePage() {
 
                     {/* Voting — Simple Arrows */}
                     <div className="vote-arrows">
-                        <button
-                            className={`vote-arrow-btn vote-arrow-up${userVote === 'up' ? ' voted' : ''}${voteAnim === 'up' ? ' anim-burst' : ''}`}
-                            onClick={() => castVote('up')}
-                            aria-label="Upvote this article"
-                        >
-                            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="18 15 12 9 6 15"></polyline>
-                            </svg>
-                        </button>
+                        <div className="vote-arrow-group">
+                            <button
+                                className={`vote-arrow-btn vote-arrow-up${userVote === 'up' ? ' voted' : ''}${voteAnim === 'up' ? ' anim-burst' : ''}`}
+                                onClick={() => castVote('up')}
+                                aria-label="Upvote this article"
+                            >
+                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                                    <polyline points="5 12 12 5 19 12"></polyline>
+                                </svg>
+                            </button>
+                            <span className={`vote-label${userVote === 'up' ? ' vote-label-up' : ''}`}>{upvotes}</span>
+                        </div>
 
-                        <button
-                            className={`vote-arrow-btn vote-arrow-down${userVote === 'down' ? ' voted' : ''}${voteAnim === 'down' ? ' anim-shake' : ''}`}
-                            onClick={() => castVote('down')}
-                            aria-label="Downvote this article"
-                        >
-                            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </button>
+                        <div className="vote-arrow-group">
+                            <button
+                                className={`vote-arrow-btn vote-arrow-down${userVote === 'down' ? ' voted' : ''}${voteAnim === 'down' ? ' anim-shake' : ''}`}
+                                onClick={() => castVote('down')}
+                                aria-label="Downvote this article"
+                            >
+                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <polyline points="19 12 12 19 5 12"></polyline>
+                                </svg>
+                            </button>
+                            <span className={`vote-label${userVote === 'down' ? ' vote-label-down' : ''}`}>{downvotes}</span>
+                        </div>
                     </div>
                 </article>
 
@@ -254,7 +270,7 @@ export default function ArticlePage() {
                                         {isAdmin && (
                                             <button
                                                 className="comment-delete-btn"
-                                                onClick={() => deleteComment(c.id)}
+                                                onClick={() => setDeleteTarget(c.id)}
                                                 title="Delete comment"
                                                 aria-label="Delete comment"
                                             >
@@ -269,6 +285,20 @@ export default function ArticlePage() {
                     </div>
                 </section>
             </main>
+
+            {/* Delete confirmation modal */}
+            {deleteTarget && (
+                <div className="modal-backdrop" onClick={() => setDeleteTarget(null)}>
+                    <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="modal-title">Delete Comment</h3>
+                        <p className="modal-text">Are you sure you want to remove this comment? This can&apos;t be undone.</p>
+                        <div className="modal-actions">
+                            <button className="modal-btn modal-btn-cancel" onClick={() => setDeleteTarget(null)}>Cancel</button>
+                            <button className="modal-btn modal-btn-delete" onClick={confirmDelete}>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

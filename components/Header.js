@@ -7,6 +7,7 @@ import { useAuth } from './AuthProvider';
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [showSignOutModal, setShowSignOutModal] = useState(false);
     const pathname = usePathname();
     const { user, loading, signIn, signOut } = useAuth();
 
@@ -16,67 +17,88 @@ export default function Header() {
         return false;
     };
 
+    const handleSignOut = async () => {
+        await signOut();
+        setShowSignOutModal(false);
+    };
+
     return (
-        <header className="site-header">
-            <div className="top-bar">
-                <div className="logo-container">
-                    <button
-                        className="mobile-menu-btn"
-                        aria-label="Toggle navigation"
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        ☰
-                    </button>
-                    <Link href="/">
-                        <img src="/assets/logo.svg" alt="Magazine Logo" className="brand-logo" />
-                    </Link>
+        <>
+            <header className="site-header">
+                <div className="top-bar">
+                    <div className="logo-container">
+                        <button
+                            className="mobile-menu-btn"
+                            aria-label="Toggle navigation"
+                            onClick={() => setMenuOpen(!menuOpen)}
+                        >
+                            ☰
+                        </button>
+                        <Link href="/">
+                            <img src="/assets/logo.svg" alt="Magazine Logo" className="brand-logo" />
+                        </Link>
+                    </div>
+                    <div className="header-actions">
+                        {!loading && (
+                            user ? (
+                                <button className="auth-btn auth-btn-signed-in" onClick={() => setShowSignOutModal(true)} title="Account">
+                                    <img src={user.photoURL} alt="" className="auth-avatar" referrerPolicy="no-referrer" />
+                                    <span className="auth-name desktop-only">{user.displayName?.split(' ')[0]}</span>
+                                </button>
+                            ) : (
+                                <button className="auth-btn auth-btn-sign-in" onClick={signIn}>
+                                    <svg width="18" height="18" viewBox="0 0 48 48" style={{ marginRight: '8px' }}>
+                                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                                    </svg>
+                                    Sign in
+                                </button>
+                            )
+                        )}
+                        <Link
+                            href="/contribute"
+                            className={`cta-button${pathname === '/contribute' ? ' inactive' : ''}`}
+                        >
+                            <span className="desktop-only">Want to </span>contribute?
+                        </Link>
+                    </div>
                 </div>
-                <div className="header-actions">
-                    {!loading && (
-                        user ? (
-                            <button className="auth-btn auth-btn-signed-in" onClick={signOut} title="Sign out">
-                                <img src={user.photoURL} alt="" className="auth-avatar" referrerPolicy="no-referrer" />
-                                <span className="auth-name desktop-only">{user.displayName?.split(' ')[0]}</span>
-                            </button>
-                        ) : (
-                            <button className="auth-btn auth-btn-sign-in" onClick={signIn}>
-                                <svg width="18" height="18" viewBox="0 0 48 48" style={{ marginRight: '8px' }}>
-                                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-                                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
-                                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
-                                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-                                </svg>
-                                Sign in
-                            </button>
-                        )
-                    )}
-                    <Link
-                        href="/contribute"
-                        className={`cta-button${pathname === '/contribute' ? ' inactive' : ''}`}
-                    >
-                        <span className="desktop-only">Want to </span>contribute?
-                    </Link>
+                <nav className={`main-nav${menuOpen ? ' active' : ''}`}>
+                    <ul className="nav-list">
+                        <li className="nav-item">
+                            <Link href="/" className={`nav-link${isActive('/') && !isActive('/library') && !isActive('/article') ? ' active' : ''}`}>
+                                Home
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link href="/library" className={`nav-link${isActive('/library') || isActive('/article') ? ' active' : ''}`}>
+                                Library
+                            </Link>
+                        </li>
+                        <li className="nav-item mobile-only">
+                            <Link href="/contribute" className={`nav-link${pathname === '/contribute' ? ' active' : ''}`}>
+                                Contribute
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+
+            {/* Sign-out confirmation modal */}
+            {showSignOutModal && (
+                <div className="modal-backdrop" onClick={() => setShowSignOutModal(false)}>
+                    <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="modal-title">Sign Out</h3>
+                        <p className="modal-text">Are you sure you want to sign out of your account?</p>
+                        <div className="modal-actions">
+                            <button className="modal-btn modal-btn-cancel" onClick={() => setShowSignOutModal(false)}>Cancel</button>
+                            <button className="modal-btn modal-btn-delete" onClick={handleSignOut}>Sign Out</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <nav className={`main-nav${menuOpen ? ' active' : ''}`}>
-                <ul className="nav-list">
-                    <li className="nav-item">
-                        <Link href="/" className={`nav-link${isActive('/') && !isActive('/library') && !isActive('/article') ? ' active' : ''}`}>
-                            Home
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link href="/library" className={`nav-link${isActive('/library') || isActive('/article') ? ' active' : ''}`}>
-                            Library
-                        </Link>
-                    </li>
-                    <li className="nav-item mobile-only">
-                        <Link href="/contribute" className={`nav-link cta-mobile${pathname === '/contribute' ? ' inactive' : ''}`}>
-                            Contribute
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+            )}
+        </>
     );
 }
