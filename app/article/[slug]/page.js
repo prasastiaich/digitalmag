@@ -12,26 +12,7 @@ import {
     deleteField
 } from 'firebase/firestore';
 
-// Article metadata lookup
-const ARTICLES = {
-    'infusion-pump-crisis': {
-        title: 'The Infusion Pump Crisis: A Study in Fatal Affordance',
-        readTime: '6 min',
-        category: 'The Medtech Archive',
-        content: [
-            { type: 'p', text: '<strong>This is a placeholder for the article body.</strong> When the actual content is written, it will go here. The text will flow naturally, maintaining an optimal line length for reading comfort.' },
-            { type: 'p', text: "Human error is rarely a spontaneous event; it is almost always the inevitable endpoint of a system designed without the human in mind. In the high-stakes environment of an intensive care unit, where cognitive load is immense and alarms are ubiquitous, the design of a device interface isn't just a matter of convenience—it is a matter of life or death." },
-            { type: 'h2', text: 'The Interface Flaw' },
-            { type: 'p', text: 'Consider the interface. The contrast ratio of the screen, the haptic feedback of the buttons, the grouping of critical controls—all these variables dictate whether a tired nurse will confidently enter 1.5 mg or mistakenly enter 15 mg into the system.' },
-        ],
-    },
-};
-
-function getArticleMeta(slug) {
-    if (ARTICLES[slug]) return ARTICLES[slug];
-    const title = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    return { title, readTime: '5 min', category: 'General', content: [{ type: 'p', text: 'Article content coming soon.' }] };
-}
+import { getArticleMeta } from '@/data/articles';
 
 export default function ArticlePage() {
     const params = useParams();
@@ -170,6 +151,17 @@ export default function ArticlePage() {
                     <div className="story-content">
                         {article.content.map((block, i) => {
                             if (block.type === 'h2') return <h2 key={i}>{block.text}</h2>;
+                            if (block.type === 'references') {
+                                return (
+                                    <ol key={i} className="article-references">
+                                        {block.links.map((ref, j) => (
+                                            <li key={j}>
+                                                <a href={ref.url} target="_blank" rel="noopener noreferrer">{ref.label}</a>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                );
+                            }
                             return <p key={i} dangerouslySetInnerHTML={{ __html: block.text }} />;
                         })}
                     </div>

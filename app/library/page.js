@@ -23,19 +23,20 @@ export default function LibraryPage() {
                     </div>
                     <div className="article-grid">
                         <Link href="/article/infusion-pump-crisis" className="article-card">
-                            <h3 className="card-title">The Infusion Pump Crisis: A Study in Fatal Affordance</h3>
-                            <hr className="card-separator" />
-                            <div className="card-meta">
-                                <span>* Read Time: 6 min</span>
-                            </div>
-                        </Link>
-                        <Link href="/article/fda-draft-guidance-2024" className="article-card">
-                            <h3 className="card-title">FDA Draft Guidance 2024: Moving Beyond the Formative</h3>
+                            <h3 className="card-title">The Ghost Decimal: How a Newton of Resistance Caused a 10-Fold Tragedy</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 4 min</span>
                             </div>
                         </Link>
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
+                            <h3 className="card-title">FDA Draft Guidance 2024: Moving Beyond the Formative</h3>
+                            <hr className="card-separator" />
+                            <div className="card-meta">
+                                <span>* Read Time: 4 min</span>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -48,20 +49,22 @@ export default function LibraryPage() {
                         </p>
                     </div>
                     <div className="article-grid">
-                        <Link href="/article/black-box-robotic-surgery" className="article-card">
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
                             <h3 className="card-title">The &quot;Black Box&quot; Problem in Robotic Surgery</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 8 min</span>
                             </div>
-                        </Link>
-                        <Link href="/article/algorithmic-bias" className="article-card">
+                        </div>
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
                             <h3 className="card-title">Algorithmic Bias: When ML Learns the Wrong Heuristics</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 5 min</span>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 </section>
 
@@ -74,13 +77,14 @@ export default function LibraryPage() {
                         </p>
                     </div>
                     <div className="article-grid">
-                        <Link href="/article/tactile-feedback-haptic" className="article-card">
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
                             <h3 className="card-title">Tactile Feedback in Haptic Actuators: A Review</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 12 min</span>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 </section>
 
@@ -93,20 +97,22 @@ export default function LibraryPage() {
                         </p>
                     </div>
                     <div className="article-grid">
-                        <Link href="/article/boeing-mcas-disaster" className="article-card">
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
                             <h3 className="card-title">The Boeing MCAS Disaster: A Human Factors Post-Mortem</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 15 min</span>
                             </div>
-                        </Link>
-                        <Link href="/article/crm-flight-protocols-er" className="article-card">
+                        </div>
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
                             <h3 className="card-title">Crew Resource Management: Adapting Flight Protocols for the ER</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 7 min</span>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 </section>
 
@@ -119,13 +125,14 @@ export default function LibraryPage() {
                         </p>
                     </div>
                     <div className="article-grid">
-                        <Link href="/article/human-robot-teaming" className="article-card">
+                        <div className="article-card card-coming-soon">
+                            <div className="coming-soon-badge">Coming Soon</div>
                             <h3 className="card-title">Human-Robot Teaming in Extreme Environments</h3>
                             <hr className="card-separator" />
                             <div className="card-meta">
                                 <span>* Read Time: 9 min</span>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 </section>
 
