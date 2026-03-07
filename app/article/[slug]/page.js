@@ -166,6 +166,13 @@ export default function ArticlePage() {
                         })}
                     </div>
 
+                    {slug === 'infusion-pump-crisis' && (
+                        <div className="article-author-byline">
+                            <span className="author-name">Prasasti Aich</span>
+                            <span className="author-title">Founder - The Variable &apos;H&apos;</span>
+                        </div>
+                    )}
+
                     {/* Voting — Simple Arrows */}
                     <div className="vote-arrows">
                         <div className="vote-arrow-group">
