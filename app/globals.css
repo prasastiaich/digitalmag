@@ -1338,14 +1338,16 @@ body {
 
     .top-bar {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        padding: 15px 20px;
+        gap: 15px;
     }
 
     .header-actions {
         display: flex;
+        justify-content: flex-end;
         align-items: center;
-        gap: 8px;
     }
 
     .main-nav {
